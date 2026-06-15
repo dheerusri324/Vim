@@ -34,6 +34,7 @@ export const extensionVersion = packagejson.version;
  * Please keep this list up to date and sorted alphabetically.
  */
 export const optionAliases: ReadonlyMap<string, string> = new Map<string, string>([
+  ['top', 'tildeop'],
   ['ai', 'autoindent'],
   ['et', 'expandtab'],
   ['gd', 'gdefault'],
@@ -102,6 +103,7 @@ class Configuration implements IConfiguration {
   [key: string]: any;
 
   private readonly leaderDefault = '\\';
+  private readonly localleaderDefault = '\\';
   private readonly cursorTypeMap: { [key: string]: vscode.TextEditorCursorStyle } = {
     line: vscode.TextEditorCursorStyle.Line,
     block: vscode.TextEditorCursorStyle.Block,
@@ -143,6 +145,7 @@ class Configuration implements IConfiguration {
     }
 
     this.leader = Notation.NormalizeKey(this.leader, this.leaderDefault);
+    this.localleader = Notation.NormalizeKey(this.localleader, this.localleaderDefault);
 
     this.clearKeyBindingsMaps();
 
@@ -168,7 +171,7 @@ class Configuration implements IConfiguration {
       }
 
       this.boundKeyCombinations.push({
-        key: Notation.NormalizeKey(key, this.leader),
+        key: Notation.NormalizeKey(key, this.leader, this.localleader),
         command: keybinding.command,
       });
     }
@@ -225,6 +228,8 @@ class Configuration implements IConfiguration {
     this.commandLineModeKeyBindingsMap = new Map<string, IKeyRemapping>();
     this.operatorPendingModeKeyBindingsMap = new Map<string, IKeyRemapping>();
   }
+
+  tildeop = false;
 
   handleKeys: IHandleKeys = {};
 
@@ -308,6 +313,8 @@ class Configuration implements IConfiguration {
   showmodename = true;
 
   leader = this.leaderDefault;
+
+  localleader = this.localleaderDefault;
 
   history = 50;
 

@@ -15,6 +15,7 @@ export class Configuration implements IConfiguration {
 
   [key: string]: any;
 
+  tildeop = false;
   useSystemClipboard = false;
   useCtrlKeys = false;
   overrideCopy = true;
@@ -70,6 +71,7 @@ export class Configuration implements IConfiguration {
   showcmd = true;
   showmodename = true;
   leader = '//';
+  localleader = '\\\\';
   history = 50;
   incsearch = true;
   inccommand = '' as const;
